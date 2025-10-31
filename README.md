@@ -2,14 +2,14 @@
 - Aplicar técnicas de Explainable AI (XAI)
 ## 1.Contextualização do Problema e Definição dos Objetivos
 
-### - Contextualização do Desafio 
+### 🎯- Contextualização do Desafio 
 
 Este projeto se concentra em um desafio crucial para as empresas que usam modelos de Machine Learning na avaliação de crédito. Embora os modelos de Machine Learning (ML) atinjam excelentes índices de precisão, eles frequentemente operam como uma "caixa-preta".
 Diante disso, clientes, gerentes e órgãos regulatórios passaram a questionar **"por que"** o modelo toma determinadas decisões, com foco especial nos casos de negação de crédito.Exige que a empresa seja capaz de explicar cada decisão individual de forma transparente, clara e tecnicamente fundamentada.
 
 O problema central, é a necessidade de ir além da precisão: o objetivo é transformar um modelo que apenas acerta o resultado em um modelo que também seja explicável e transparente em cada decisão.
 
-### - Definição dos Objetivos
+### -🚀 Definição dos Objetivos
 
 A missão deste projeto é aplicar técnicas de **Explainable AI (XAI)**, utilizando a biblioteca **LIME** (Local Interpretable Model-agnostic Explanations), para solucionar o problema da opacidade.
 
@@ -19,7 +19,7 @@ Os objetivos específicos são:
 3.  **Demonstrar a transparência** das decisões do modelo, tanto em casos de **Negação** (Mau Risco) quanto em casos de **Aprovação** (Bom Risco), conforme exigido para fins de compliance e comunicação com o cliente.
 
 
-### 2. Explicação do Modelo Preditivo Escolhido
+### 🛑2. Explicação do Modelo Preditivo Escolhido
 
 Para o desafio de classificar clientes entre "Bom Risco" e "Mau Risco" (classificação binária), foi escolhido o algoritmo de **Random Forest (Floresta Aleatória)**.
 
