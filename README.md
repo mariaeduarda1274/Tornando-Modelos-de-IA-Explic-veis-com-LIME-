@@ -19,7 +19,7 @@ Os objetivos específicos são:
 3.  **Demonstrar a transparência** das decisões do modelo, tanto em casos de **Negação** (Mau Risco) quanto em casos de **Aprovação** (Bom Risco), conforme exigido para fins de compliance e comunicação com o cliente.
 
 
-### 🛑2. Explicação do Modelo Preditivo Escolhido
+### 2. Explicação do Modelo Preditivo Escolhido
 
 Para o desafio de classificar clientes entre "Bom Risco" e "Mau Risco" (classificação binária), foi escolhido o algoritmo de **Random Forest (Floresta Aleatória)**.
 
@@ -30,3 +30,29 @@ Para o desafio de classificar clientes entre "Bom Risco" e "Mau Risco" (classifi
 
 #### Papel do Modelo no Projeto
 O modelo Random Forest serve como a **base preditiva** do projeto. Sua alta precisão valida a utilidade do sistema, enquanto sua opacidade (a "caixa-preta") justifica a necessidade e a aplicação da ferramenta LIME. A explicação do LIME é, portanto, o método de tornar as previsões deste modelo complexo transparentes para o cliente e para fins de auditoria.
+
+### - Discussão Interpretativa sobre as Explicações Geradas pelo LIME
+
+A aplicação do LIME permitiu abrir a "caixa-preta" do modelo Random Forest, fornecendo explicações transparentes para duas decisões críticas: a negação de crédito (ID 740) e a aprovação (ID 521).
+
+#### A. Análise da Negação de Crédito (ID 740)
+
+No caso do Cliente ID 740, a previsão do modelo foi de **Mau Risco**, levando à negação do crédito. O gráfico LIME revela que o peso total dos fatores negativos (barras vermelhas) superou significativamente o único fator positivo.
+
+* **Fator Principal de Risco:** A falta de conta corrente (**"Sem Conta Corrente (Risco)"**) foi o fator mais impactante para a negação, com um peso negativo de aproximadamente -0.15.
+* **Fator Secundário de Risco:** O histórico de crédito do cliente contribuiu de forma crucial. O rótulo **"Histórico: Pagamentos em dia"** aparece na cor vermelha, indicando que a **ausência** dessa característica positiva no perfil do cliente foi um risco, levando a um impacto negativo de cerca de -0.10.
+* **Decisão Explicada:** O modelo determinou que o propósito de crédito ("Móveis / Equipamento") não era um fator positivo suficiente para mitigar os altos riscos de falta de conta e problemas de histórico.
+
+#### B. Análise da Aprovação de Crédito (ID 521)
+
+No caso do Cliente ID 521, o modelo previu **Bom Risco** e concedeu o crédito. Este gráfico demonstra a essência do XAI: mesmo um cliente aprovado possui riscos, mas seus pontos fortes foram superiores.
+
+* **Fator Principal de Aprovação:** O **"Histórico: Pagamentos em dia"** foi o fator mais forte e positivo (+0.10), sendo o motor da aprovação.
+* **Riscos Mitigados:** Curiosamente, este cliente também apresenta o maior risco do dataset (**"Sem Conta Corrente (Risco)"**). No entanto, a força do seu histórico (Pagamentos em dia) e o Propósito do empréstimo (Móveis/Equipamento) foram suficientes para **mitigar** o risco e pender a balança para a concessão.
+
+#### C. Demonstração de Coerência e Domínio Técnico
+
+A comparação dos dois gráficos valida a coerência e a lógica do modelo Random Forest:
+
+* **Coerência do Modelo:** O LIME prova que o modelo nega o crédito por motivos lógicos (falta de conta e histórico ruim) e aprova por motivos igualmente lógicos (histórico positivo forte).
+* **Nuance Técnica (o mesmo rótulo em cores opostas):** A feature **"Histórico: Pagamentos em dia"** é um exemplo perfeito. Ela está em **verde** no caso de **Aprovação** (indicando que a característica *está presente*) e em **vermelho** no caso de **Negação** (indicando que a *ausência* da característica é um fator de risco), provando a capacidade do LIME de extrair o impacto de uma característica em contextos locais diferentes.
