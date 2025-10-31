@@ -2,7 +2,7 @@
 - Aplicar técnicas de Explainable AI (XAI)
 ## 1.Contextualização do Problema e Definição dos Objetivos
 
-### 1. Contextualização do Desafio 
+### - Contextualização do Desafio 
 
 Este projeto se concentra em um desafio crucial para as empresas que usam modelos de Machine Learning na avaliação de crédito. Embora os modelos de Machine Learning (ML) atinjam excelentes índices de precisão, eles frequentemente operam como uma "caixa-preta".
 Diante disso, clientes, gerentes e órgãos regulatórios passaram a questionar **"por que"** o modelo toma determinadas decisões, com foco especial nos casos de negação de crédito.Exige que a empresa seja capaz de explicar cada decisão individual de forma transparente, clara e tecnicamente fundamentada.
