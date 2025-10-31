@@ -23,7 +23,7 @@ Os objetivos específicos são:
 
 Para o desafio de classificar clientes entre "Bom Risco" e "Mau Risco" (classificação binária), foi escolhido o algoritmo de **Random Forest (Floresta Aleatória)**.
 
-#### Por que o Random Forest?
+#### Por que escolhi o Random Forest?
 1.  **Alta Acurácia:** O Random Forest é um modelo de aprendizado de conjunto conhecido por entregar alta acurácia e estabilidade, sendo muito eficaz em problemas de classificação do mundo real, como o credit scoring.
 2.  **Robustez:** Ele lida bem com a complexidade e a não-linearidade dos dados de crédito, além de ser menos suscetível a *overfitting* (sobreajuste) em comparação com uma única Árvore de Decisão.
 3.  **O Problema da Caixa-Preta:** Apesar de sua excelente performance, o Random Forest opera como um modelo de **"caixa-preta"**. Sua decisão final é o resultado da média de centenas de árvores individuais, o que torna impossível para um ser humano rastrear ou explicar o "porquê" de uma decisão individual.
