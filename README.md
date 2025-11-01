@@ -19,7 +19,7 @@ Os objetivos específicos são:
 3.  **Demonstrar a transparência** das decisões do modelo, tanto em casos de **Negação** (Mau Risco) quanto em casos de **Aprovação** (Bom Risco), conforme exigido para fins de compliance e comunicação com o cliente.
 
 
-### 2. Explicação do Modelo Preditivo Escolhido
+### 💭2. Explicação do Modelo Preditivo Escolhido
 
 Para o desafio de classificar clientes entre "Bom Risco" e "Mau Risco" (classificação binária), foi escolhido o algoritmo de **Random Forest (Floresta Aleatória)**.
 
@@ -59,3 +59,5 @@ A comparação dos dois gráficos valida a coerência e a lógica do modelo Rand
 
 * **Coerência do Modelo:** O LIME prova que o modelo nega o crédito por motivos lógicos (falta de conta e histórico ruim) e aprova por motivos igualmente lógicos (histórico positivo forte).
 * **Nuance Técnica (o mesmo rótulo em cores opostas):** A feature **"Histórico: Pagamentos em dia"** é um exemplo perfeito. Ela está em **verde** no caso de **Aprovação** (indicando que a característica *está presente*) e em **vermelho** no caso de **Negação** (indicando que a *ausência* da característica é um fator de risco), provando a capacidade do LIME de extrair o impacto de uma característica em contextos locais diferentes.
+
+
