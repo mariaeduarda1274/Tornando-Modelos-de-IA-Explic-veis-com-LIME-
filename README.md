@@ -46,7 +46,7 @@ No caso do Cliente ID 740, a previsão do modelo foi de **Mau Risco**, levando �
 
 #### B. Análise da Aprovação de Crédito (ID 521)
 
-![Gráfico LIME detalhando os fatores de aprovação para o Cliente ID 521.](LIME_FINAL_APROVADO_ID_521.png)
+![Gráfico LIME detalhando os fatores de aprovação para o Cliente ID 521.](LIME_FINAL_APROVADO_ID_521(2).png)
 
 No caso do Cliente ID 521, o modelo previu **Bom Risco** e concedeu o crédito. Este gráfico demonstra a essência do XAI: mesmo um cliente aprovado possui riscos, mas seus pontos fortes foram superiores.
 
