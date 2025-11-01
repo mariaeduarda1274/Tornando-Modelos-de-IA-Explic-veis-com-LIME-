@@ -20,6 +20,7 @@ Os objetivos específicos são:
 
 
 ### 💭2. Explicação do Modelo Preditivo Escolhido
+### - 
 
 Para o desafio de classificar clientes entre "Bom Risco" e "Mau Risco" (classificação binária), foi escolhido o algoritmo de **Random Forest (Floresta Aleatória)**.
 
