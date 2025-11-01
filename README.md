@@ -37,7 +37,7 @@ A aplicação do LIME permitiu abrir a "caixa-preta" do modelo Random Forest, fo
 
 #### A. Análise da Negação de Crédito (ID 740)
 **GRÁFICO LIME - FATORES PARA A NEGAÇÃO (ID 740):**
-![Gráfico LIME detalhando os fatores de negação para o Cliente ID 740.](LIME_FINAL_NEGADO_ID_740_(2)(1).png)
+![Gráfico LIME detalhando a Negação.](LIME_FINAL_NEGADO_ID_740.png)
 No caso do Cliente ID 740, a previsão do modelo foi de **Mau Risco**, levando à negação do crédito. O gráfico LIME revela que o peso total dos fatores negativos (barras vermelhas) superou significativamente o único fator positivo.
 
 * **Fator Principal de Risco:** A falta de conta corrente (**"Sem Conta Corrente (Risco)"**) foi o fator mais impactante para a negação, com um peso negativo de aproximadamente -0.15.
