@@ -1,1 +1,6 @@
-
+# Pacotes essenciais para o Projeto LIME (Credit Score)
+pandas
+numpy
+scikit-learn
+lime
+matplotlib
