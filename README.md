@@ -83,7 +83,7 @@ Fidelidade Local: A explicação do LIME é baseada em uma regressão linear (mo
 
 Limitação do Modelo (Random Forest): O Random Forest, embora preciso, é inerentemente complexo, o que torna a extração de regras globais difíceis, exigindo sempre uma ferramenta de XAI.
 
-2. Importância e Futuro da Interpretabilidade (XAI) no Crédito
+2.  Importância e Futuro da Interpretabilidade (XAI) no Crédito
 A aplicação do XAI neste projeto demonstra que a transparência não é um luxo, mas uma necessidade operacional no setor financeiro.
 
 Confiança do Cliente: O LIME transforma um "crédito negado" sem motivo em uma oportunidade de melhoria. O cliente negado (ID 740) agora sabe que precisa abrir uma conta corrente (Risco) ou melhorar seu histórico.
