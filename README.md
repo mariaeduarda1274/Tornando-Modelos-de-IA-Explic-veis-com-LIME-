@@ -1,5 +1,23 @@
 #  📌Decifrando a Caixa Preta:Tornando Modelos de IA Explicáveis com LIME 
 - Aplicar técnicas de Explainable AI (XAI)
+- ## 🎲1. Instruções de Execução do Projeto
+
+Para reproduzir este projeto, siga os passos abaixo:
+
+1.  **Baixe o Projeto:** Clone ou baixe o repositório completo do GitHub.
+
+2.  **Instale as Dependências (Bibliotecas):**
+    * **Passo A (Navegar):** Abra o seu Terminal (ou Prompt de Comando/PowerShell) e **navegue até a pasta que você baixou**, onde está o arquivo `requirements.txt`.
+    * **Passo B (Instalar):** Execute o comando para instalar todas as bibliotecas:
+        ```bash
+        pip install -r requirements.txt
+        ```
+
+3.  **Execute o Código:**
+    * O código está no arquivo **`código/main.py`**. Execute o arquivo para treinar o modelo e gerar os gráficos LIME.
+
+*Nota: O arquivo de dados (`german.data`) está na raiz do repositório, garantindo que o código rode perfeitamente.*
+
 ## 1.Contextualização do Problema e Definição dos Objetivos
 
 ### 🎯- Contextualização do Desafio 
