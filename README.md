@@ -1,22 +1,17 @@
 #  📌Decifrando a Caixa Preta:Tornando Modelos de IA Explicáveis com LIME 
 - Aplicar técnicas de Explainable AI (XAI)
 - ## 🎲1. Instruções de Execução do Projeto
+## 1. Instruções de Execução do Projeto
 
-Para reproduzir este projeto, siga os passos abaixo:
+Para reproduzir este projeto (Modelo Random Forest e Explicações LIME), siga os passos abaixo:
 
 1.  **Baixe o Projeto:** Clone ou baixe o repositório completo do GitHub.
 
-2.  **Instale as Dependências (Bibliotecas):**
-    * **Passo A (Navegar):** Abra o seu Terminal (ou Prompt de Comando/PowerShell) e **navegue até a pasta que você baixou**, onde está o arquivo `requirements.txt`.
-    * **Passo B (Instalar):** Execute o comando para instalar todas as bibliotecas:
-        ```bash
-        pip install -r requirements.txt
-        ```
+2.  **Preparação:**
+    * * **Opção Recomendada (Notebook/Colab):** Abra e execute as células do **seu notebook original** (se você tiver ele) **OU** use o arquivo **`código/main.py`**. As primeiras linhas instalam as dependências necessárias.
 
 3.  **Execute o Código:**
-    * O código está no arquivo **`código/main.py`**. Execute o arquivo para treinar o modelo e gerar os gráficos LIME.
-
-*Nota: O arquivo de dados (`german.data`) está na raiz do repositório, garantindo que o código rode perfeitamente.*
+    * O arquivo `código/main.py` irá automaticamente carregar os dados (`german.data`), treinar o modelo e **gerar os gráficos LIME** (para aprovação e negação) na raiz do projeto.
 
 ## 1.Contextualização do Problema e Definição dos Objetivos
 
@@ -49,7 +44,7 @@ Para o desafio de classificar clientes entre "Bom Risco" e "Mau Risco" (classifi
 #### Papel do Modelo no Projeto
 O modelo Random Forest serve como a **base preditiva** do projeto. Sua alta precisão valida a utilidade do sistema, enquanto sua opacidade (a "caixa-preta") justifica a necessidade e a aplicação da ferramenta LIME. A explicação do LIME é, portanto, o método de tornar as previsões deste modelo complexo transparentes para o cliente e para fins de auditoria.
 
-### - 2.3 Discussão Interpretativa sobre as Explicações Geradas pelo LIME
+### 📍- 2.3 Discussão Interpretativa sobre as Explicações Geradas pelo LIME
 
 A aplicação do LIME permitiu abrir a "caixa-preta" do modelo Random Forest, fornecendo explicações transparentes para duas decisões críticas: a negação de crédito (ID 740) e a aprovação (ID 521).
 
@@ -77,7 +72,7 @@ A comparação dos dois gráficos valida a coerência e a lógica do modelo Rand
 * **Coerência do Modelo:** O LIME prova que o modelo nega o crédito por motivos lógicos (falta de conta e histórico ruim) e aprova por motivos igualmente lógicos (histórico positivo forte).
 * **Nuance Técnica (o mesmo rótulo em cores opostas):** A feature **"Histórico: Pagamentos em dia"** é um exemplo perfeito. Ela está em **verde** no caso de **Aprovação** (indicando que a característica *está presente*) e em **vermelho** no caso de **Negação** (indicando que a *ausência* da característica é um fator de risco), provando a capacidade do LIME de extrair o impacto de uma característica em contextos locais diferentes.
 
-### ### 2.4 Reflexões sobre Limitações e Importância da Interpretabilidade (XAI)
+### ### 🛑 2.4 Reflexões sobre Limitações e Importância da Interpretabilidade (XAI)
 
 1. Limitações do LIME e do Modelo (Random Forest)
 Embora o LIME tenha sido fundamental para abrir a "caixa-preta" e validar as decisões do modelo, é crucial reconhecer suas limitações:
