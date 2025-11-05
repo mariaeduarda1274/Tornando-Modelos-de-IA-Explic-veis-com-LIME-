@@ -1,10 +1,18 @@
 ## Importante, rodar cada código uma parte, não tudo de uma vez.
+Instruções para o código não da erro:
+️- Reinicie o ambiente antes (menu → Ambiente de execução → Reiniciar ambiente de execução)
+Isso limpa tudo e evita variáveis “velhas”.
 
+- Depois, rode cada célula na ordem, assim:
+1. Instalar bibliotecas (pip install lime)
+2. Carregar e preparar o dataset (german.data)
+3. Fazer o encoding (get_dummies)
+4. Treinar o modelo (RandomForest)
+5. Bloco 5: LIME explicação ID 740
+6. Bloco 6: Função gerar gráfico + gerar ambos gráficos (521 e 740)
 
-# Comando para instalar a biblioteca LIME
-!pip install lime
+- Verifique se o arquivo german.data está no Colab.
 
-# O Colab já deve ter os outros, mas você pode rodar para garantir:
 # !pip install pandas numpy scikit-learn
 
 import pandas as pd
@@ -151,131 +159,108 @@ print(f"Explicação LIME em texto (5 Fatores mais importantes):")
 print(explanation.as_list())
 
 
+# ==============================================================================  
+# 6. VISUALIZAÇÃO PROFISSIONAL FINAL - GERAR GRÁFICOS DE APROVAÇÃO E NEGAÇÃO
 # ==============================================================================
-# 6. VISUALIZAÇÃO PROFISSIONAL FINAL (VERSÃO DEFINITIVA E LIMPA)
-# ==============================================================================
+
 import matplotlib.pyplot as plt
 import re
 
-# 1. Mapeamento Semântico
-category_map = {
-    'A14': 'Sem Conta Corrente (Risco)',
-    'A152': 'Conta com Saldo Positivo',
-    'A31': 'Histórico: Pagamentos em dia',
-    'A34': 'Histórico: Atraso em Pagamentos (Risco)',
+def gerar_grafico_lime(ID_PARA_EXPLICAR):
+    """Função que gera e salva o gráfico LIME para um cliente específico."""
+    
+    # Localizar a instância
+    instance_index = X_test.index.get_loc(ID_PARA_EXPLICAR)
+    instance_data = X_test.iloc[instance_index].values
+    instance_label = y_test.iloc[instance_index]
+    
+    # Gerar explicação
+    explanation = explainer.explain_instance(
+        data_row=instance_data,
+        predict_fn=model.predict_proba,
+        num_features=8
+    )
+    prediction = model.predict(instance_data.reshape(1, -1))[0]
+    prediction_label = 'Negado' if prediction == 0 else 'Aprovado'
 
+    # Mapeamentos semânticos
+    category_map = {
+        'A14': 'Sem Conta Corrente (Risco)',
+        'A152': 'Conta com Saldo Positivo',
+        'A31': 'Histórico: Pagamentos em dia',
+        'A34': 'Histórico: Atraso em Pagamentos (Risco)',
+        'A41': 'Propósito: Carro Novo',
+        'A46': 'Propósito: Móveis / Equipamento',
+    }
+    attribute_map = {'12': 'Idade (anos)', '4': 'Monto do Crédito (DM)'}
 
-    'A41': 'Propósito: Carro Novo',
-    'A46': 'Propósito: Móveis / Equipamento',
-}
-attribute_map = {
-    '12': 'Idade (anos)',
-    '4': 'Monto do Crédito (DM)', # Correção para o índice 4
-}
+    explanation_list = explanation.as_list()
+    translated_features = []
+    count = 0
 
-# 2. Obter a Explicação e Traduzir as Features
-explanation_list = explanation.as_list()
-translated_features = []
-count = 0 # <<--- CORREÇÃO: Inicializa o contador
+    for feature_expression, weight in explanation_list:
+        if count >= 5:
+            break
+        clean_expression = feature_expression
+        traduzido_encontrado = False
 
-for feature_expression, weight in explanation_list:
-    # 1. Parar o loop depois de 5 fatores CLAROS serem adicionados
-    if count >= 5:
-        break
+        if '1380 < Monto do Crédito (DM) <=' in feature_expression:
+            clean_expression = 'Valor de Crédito Moderado'
+            traduzido_encontrado = True
 
-    clean_expression = feature_expression
-    traduzido_encontrado = False
+        if not traduzido_encontrado:
+            for code, traducao in category_map.items():
+                if code in feature_expression:
+                    clean_expression = traducao
+                    traduzido_encontrado = True
+                    break
 
-    # 0. TRADUÇÃO SEMÂNTICA (Substitui a faixa numérica por uma frase simples)
-    if '1380 < Monto do Crédito (DM) <=' in feature_expression:
-        clean_expression = 'Valor de Crédito Moderado' # Opção: Manter o nome traduzido se não quiser a frase
-        traduzido_encontrado = True
+        if not traduzido_encontrado:
+            for index_str, attr_name in attribute_map.items():
+                if f' < {index_str} <=' in feature_expression or f' > {index_str} ' in feature_expression:
+                    clean_expression = feature_expression.replace(f' {index_str} ', f' {attr_name} ')
+                    traduzido_encontrado = True
+                    break
 
-    # 1. Lógica de Tradução para Categóricas (códigos)
-    if not traduzido_encontrado:
-        for code, traducao in category_map.items():
-            if code in feature_expression:
-                clean_expression = traducao
-                traduzido_encontrado = True
-                break
+        clean_expression = re.sub(r'(\d)\.00', r'\1', clean_expression)
+        clean_expression = re.sub(r'(\d)\.0', r'\1', clean_expression)
 
-    # 2. LÓGICA REFORÇADA PARA TRADUZIR VARIÁVEIS NUMÉRICAS COM NOTAÇÃO LIME
-    if not traduzido_encontrado:
-        for index_str, attr_name in attribute_map.items():
-            if f' < {index_str} <=' in feature_expression or f' > {index_str} ' in feature_expression:
-                clean_expression = feature_expression.replace(f' {index_str} ', f' {attr_name} ')
-                traduzido_encontrado = True
-                break
+        if 'Monto do Crédito' in clean_expression or 'Valor de Crédito Moderado' in clean_expression:
+            continue
 
-    # 3. Lógica de tradução de outros índices numéricos (A lógica antiga, mas mantida)
-    if not traduzido_encontrado:
-        match_index = re.match(r'(\d+)', feature_expression)
-        original_index = match_index.group(1) if match_index else None
+        translated_features.append((clean_expression, weight))
+        count += 1
 
-        if original_index in attribute_map:
-             attribute_name = attribute_map[original_index]
-             clean_expression = feature_expression.replace(original_index, attribute_name)
-        else:
-            clean_expression = feature_expression
+    features = [item[0] for item in translated_features]
+    weights = [item[1] for item in translated_features]
+    colors = ['#dc3545' if w < 0 else '#28a745' for w in weights]
 
-    # 4. LIMPEZA FINAL GERAL: Remove todos os '.00'
-    clean_expression = re.sub(r'(\d)\.00', r'\1', clean_expression)
-    clean_expression = re.sub(r'(\d)\.0', r'\1', clean_expression)
+    plt.style.use('fivethirtyeight')
+    fig, ax = plt.subplots(figsize=(10, 6))
+    ax.barh(features, weights, color=colors, alpha=0.9)
+    ax.axvline(x=0, color='gray', linestyle='--', linewidth=1)
 
-    # NOVO FILTRO DE EXCLUSÃO
-    # Exclui o fator de Monto do Crédito para buscar o 6º fator (que é mais claro)
-    if 'Monto do Crédito' in clean_expression or 'Valor de Crédito Moderado' in clean_expression:
-        continue # Pula este fator
+    titulo_principal = 'TRANSPARÊNCIA LIME: FATORES PARA A APROVAÇÃO' if prediction_label == 'Aprovado' else 'TRANSPARÊNCIA LIME: FATORES PARA A NEGAÇÃO'
+    nome_cliente_ficticio = "Cliente Teste João"
 
-    # Adicionar o fator traduzido
-    translated_features.append((clean_expression, weight))
-    count += 1
+    ax.set_title(f'{titulo_principal}: {nome_cliente_ficticio} (ID {ID_PARA_EXPLICAR})',
+                 fontsize=14, color='#343a40', fontweight='bold')
+    ax.set_xlabel('Impacto na Probabilidade de Ser "Bom Risco" (Peso)', fontsize=11, color='#495057')
+    ax.set_ylabel('Fatores Determinantes', fontsize=11, color='#495057')
+    plt.tick_params(axis='y', labelsize=10)
+    plt.gca().invert_yaxis()
+    plt.tight_layout()
 
+    nome_arquivo_definitivo = f'LIME_FINAL_{prediction_label.upper()}_ID_{ID_PARA_EXPLICAR}.png'
+    fig.savefig(nome_arquivo_definitivo, bbox_inches='tight', dpi=300)
+    plt.close(fig)
+    print(f"✅ IMAGEM SALVA: {nome_arquivo_definitivo}")
 
-# 3. Desenhar o Gráfico Matplotlib
-features = [item[0] for item in translated_features]
-weights = [item[1] for item in translated_features]
-colors = ['#dc3545' if w < 0 else '#28a745' for w in weights]
-
-plt.style.use('fivethirtyeight')
-fig, ax = plt.subplots(figsize=(10, 6))
-ax.barh(features, weights, color=colors, alpha=0.9)
-ax.axvline(x=0, color='gray', linestyle='--', linewidth=1)
-
-# TÍTULO FINAL DINÂMICO
-# A. PREDIÇÃO (JÁ MUDADO PARA APROVADO/NEGADO)
-prediction_label = 'Negado' if prediction == 0 else 'Aprovado'
-
-# B. UNIFORMIZAÇÃO DOS TÍTULOS PRINCIPAIS
-if 'Negado' in prediction_label:
-    titulo_principal = 'TRANSPARÊNCIA LIME: FATORES PARA A NEGAÇÃO' # Mantido
-else:
-    # MUDA AQUI! Para usar a mesma estrutura "FATORES PARA..."
-    titulo_principal = 'TRANSPARÊNCIA LIME: FATORES PARA A APROVAÇÃO'
-
-# C. NOME FICTÍCIO (MANTIDO)
-nome_cliente_ficticio = "Cliente Teste João"
-
-# D. EXIBIÇÃO
-ax.set_title(
-    f'{titulo_principal}: {nome_cliente_ficticio} (ID {X_test.index[instance_index]})',
-    fontsize=14,
-    color='#343a40',
-    fontweight='bold'
-)
-ax.set_xlabel('Impacto na Probabilidade de Ser "Bom Risco" (Peso)', fontsize=11, color='#495057')
-ax.set_ylabel('Fatores Determinantes', fontsize=11, color='#495057')
-
-plt.tick_params(axis='y', labelsize=10)
-plt.gca().invert_yaxis()
-plt.tight_layout()
-
-# 4. SALVAR E FECHAR A IMAGEM (REMOVE WARNINGS/OUTPUTS)
-nome_arquivo_definitivo = f'LIME_FINAL_{prediction_label.replace(" ", "_").upper()}_ID_{X_test.index[instance_index]}.png'
-fig.savefig(nome_arquivo_definitivo, bbox_inches='tight', dpi=300)
-plt.close(fig)
-
-print(f"\n>>> IMAGEM FINAL SALVA E PRONTA PARA ENTREGA: '{nome_arquivo_definitivo}' <<<")
+# ==================================================================
+# GERAR AMBOS OS GRÁFICOS (APROVADO E NEGADO)
+# ==================================================================
+gerar_grafico_lime(521)  # Cliente aprovado
+gerar_grafico_lime(740)  # Cliente negado
 
 # ==============================================================================
 # 15. ENCONTRAR UM CLIENTE NEGADO (MAU RISCO)
