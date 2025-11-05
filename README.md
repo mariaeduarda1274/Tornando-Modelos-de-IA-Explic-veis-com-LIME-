@@ -72,20 +72,25 @@ A comparação dos dois gráficos valida a coerência e a lógica do modelo Rand
 * **Coerência do Modelo:** O LIME prova que o modelo nega o crédito por motivos lógicos (falta de conta e histórico ruim) e aprova por motivos igualmente lógicos (histórico positivo forte).
 * **Nuance Técnica (o mesmo rótulo em cores opostas):** A feature **"Histórico: Pagamentos em dia"** é um exemplo perfeito. Ela está em **verde** no caso de **Aprovação** (indicando que a característica *está presente*) e em **vermelho** no caso de **Negação** (indicando que a *ausência* da característica é um fator de risco), provando a capacidade do LIME de extrair o impacto de uma característica em contextos locais diferentes.
 
-### 🛑 2.4 Reflexões sobre Limitações e Importância da Interpretabilidade (XAI)
+## 🛑 2.4 Reflexões sobre Limitações e Importância da Interpretabilidade (XAI)
 
-1. Limitações do LIME e do Modelo (Random Forest)
-Embora o LIME tenha sido fundamental para abrir a "caixa-preta" e validar as decisões do modelo, é crucial reconhecer suas limitações:
+### **Limitações do LIME e do Modelo (Random Forest)**  
+Embora o LIME tenha sido fundamental para abrir a “caixa-preta” e validar as decisões do modelo, é crucial reconhecer suas limitações:
 
-Interpretabilidade Local vs. Global (LIME): O LIME só explica uma decisão individual (local) de cada vez. Ele não fornece uma visão geral (global) de como o modelo Random Forest opera em todo o dataset, o que exigiria outras técnicas, como a importância global de features (SHAP ou Permutation Importance).
+- **Interpretabilidade Local vs. Global (LIME):** O LIME só explica uma decisão individual (local) de cada vez. Ele não fornece uma visão geral (global) de como o modelo Random Forest opera em todo o dataset, o que exigiria outras técnicas, como a importância global de features (SHAP ou Permutation Importance).  
+- **Fidelidade Local:** A explicação do LIME é baseada em uma regressão linear (modelo substituto) que aproxima o comportamento do modelo complexo apenas em torno da instância que está sendo explicada.  
+- **Limitação do Modelo (Random Forest):** O Random Forest, embora preciso, é inerentemente complexo, o que torna a extração de regras globais difíceis, exigindo sempre uma ferramenta de XAI.
 
-Fidelidade Local: A explicação do LIME é baseada em uma regressão linear (modelo substituto) que aproxima o comportamento do modelo complexo apenas em torno da instância que está sendo explicada. 
+---
 
-Limitação do Modelo (Random Forest): O Random Forest, embora preciso, é inerentemente complexo, o que torna a extração de regras globais difíceis, exigindo sempre uma ferramenta de XAI.
-
-2.  Importância e Futuro da Interpretabilidade (XAI) no Crédito
+### **Importância e Futuro da Interpretabilidade (XAI) no Crédito**  
 A aplicação do XAI neste projeto demonstra que a transparência não é um luxo, mas uma necessidade operacional no setor financeiro.
 
-Confiança do Cliente: O LIME transforma um "crédito negado" sem motivo em uma oportunidade de melhoria. O cliente negado (ID 740) agora sabe que precisa abrir uma conta corrente (Risco) ou melhorar seu histórico.
+- **Confiança do Cliente:** O LIME transforma um “crédito negado” sem motivo em uma oportunidade de melhoria. O cliente negado (ID 740) agora sabe que precisa abrir uma conta corrente (Risco) ou melhorar seu histórico.  
+- **Auditoria e Transparência:** O LIME fornece um registro de auditoria claro e rastreável para cada decisão.
 
- O LIME fornece um registro de auditoria claro e rastreável para cada decisão.
+---
+
+💡 **Conclusão Final:**  
+Portanto, a combinação entre modelos preditivos e ferramentas de interpretabilidade como o **LIME** permite decisões mais **éticas, transparentes e auditáveis**, fortalecendo a confiança entre **clientes, analistas e instituições financeiras**.
+
