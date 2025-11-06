@@ -13,7 +13,7 @@ Isso limpa tudo e evita variáveis “velhas”.
 
 - Verifique se o arquivo german.data está no Colab.
 
-# !pip install pandas numpy scikit-learn
+!pip install lime
 
 import pandas as pd
 import numpy as np
